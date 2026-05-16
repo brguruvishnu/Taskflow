@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project - TaskFlow</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/dashboard.html" class="nav-brand" style="color: var(--text-primary)">&larr; Back to Dashboard</a>
+        <div class="nav-user">
+            <span id="user-name">Loading...</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="project-header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1 id="project-title">Loading Project...</h1>
+                    <p id="project-desc" class="text-muted"></p>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button id="btn-members" class="btn btn-outline">Members</button>
+                    <button id="btn-new-task" class="btn btn-primary" style="display: none;">+ New Task</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kanban Board -->
+        <div class="board">
+            <!-- TODO Column -->
+            <div class="column">
+                <div class="column-header">
+                    <span>TODO</span>
+                    <span class="badge badge-todo" id="count-todo">0</span>
+                </div>
+                <div class="task-list" id="col-todo"></div>
+            </div>
+
+            <!-- IN PROGRESS Column -->
+            <div class="column">
+                <div class="column-header">
+                    <span>IN PROGRESS</span>
+                    <span class="badge badge-in-progress" id="count-inprogress">0</span>
+                </div>
+                <div class="task-list" id="col-inprogress"></div>
+            </div>
+
+            <!-- DONE Column -->
+            <div class="column">
+                <div class="column-header">
+                    <span>DONE</span>
+                    <span class="badge badge-done" id="count-done">0</span>
+                </div>
+                <div class="task-list" id="col-done"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Task Modal -->
+    <div class="modal-overlay" id="task-modal">
+        <div class="modal glass-panel">
+            <div class="modal-header">
+                <h2>Create Task</h2>
+                <button class="modal-close" onclick="closeModal('task-modal')">&times;</button>
+            </div>
+            <form id="create-task-form">
+                <div class="form-group">
+                    <label>Task Title</label>
+                    <input type="text" id="task-title" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="task-desc" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Assign To</label>
+                    <select id="task-assignee">
+                        <option value="">Unassigned</option>
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" id="task-due">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Create Task</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Members Modal -->
+    <div class="modal-overlay" id="members-modal">
+        <div class="modal glass-panel" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>Project Members</h2>
+                <button class="modal-close" onclick="closeModal('members-modal')">&times;</button>
+            </div>
+            
+            <div id="add-member-section" style="display: none; margin-bottom: 2rem;">
+                <form id="add-member-form" style="display: flex; gap: 1rem; align-items: flex-end;">
+                    <div class="form-group" style="margin-bottom: 0; flex: 1;">
+                        <label>User Email</label>
+                        <input type="email" id="member-email" required placeholder="user@example.com">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+            </div>
+
+            <div class="item-list" id="members-list">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Detail Modal -->
+    <div class="modal-overlay" id="task-detail-modal">
+        <div class="modal glass-panel">
+            <div class="modal-header">
+                <h2 id="detail-title">Task Detail</h2>
+                <button class="modal-close" onclick="closeModal('task-detail-modal')">&times;</button>
+            </div>
+            <div id="detail-content">
+                <p id="detail-desc" class="text-muted" style="margin-bottom: 1.5rem;"></p>
+                
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="detail-status">
+                        <option value="TODO">TODO</option>
+                        <option value="IN_PROGRESS">IN PROGRESS</option>
+                        <option value="DONE">DONE</option>
+                    </select>
+                </div>
+                
+                <div id="admin-controls" style="display: none;">
+                    <div class="form-group">
+                        <label>Assignee</label>
+                        <select id="detail-assignee">
+                            <option value="">Unassigned</option>
+                        </select>
+                    </div>
+                    <button id="btn-delete-task" class="btn btn-danger btn-block" style="margin-top: 1rem;">Delete Task</button>
+                </div>
+                <button id="btn-save-task" class="btn btn-primary btn-block" style="margin-top: 1rem;">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/project.js"></script>
+</body>
+</html>
