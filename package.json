@@ -5,11 +5,11 @@
     "main":  "src/app.js",
     "scripts":  {
                     "postinstall":  "prisma generate",
-                    "start":  "npx prisma db push --accept-data-loss \u0026\u0026 node server/src/app.js",
+                    "start":  "prisma db push --accept-data-loss && node server/src/app.js",
                     "dev":  "nodemon server/src/app.js",
-                    "db:push":  "npx prisma db push",
-                    "db:generate":  "npx prisma generate",
-                    "db:studio":  "npx prisma studio"
+                    "db:push":  "prisma db push",
+                    "db:generate":  "prisma generate",
+                    "db:studio":  "prisma studio"
                 },
     "dependencies":  {
                          "@prisma/client":  "^7.8.0",
